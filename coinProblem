@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+int total = 0;
+int count(vector<int>& coins, int target){
+    if(target == 0){
+        total++;
+        return total;
+    }
+    for(auto c: coins){
+        int tmp = target - c;
+        if(tmp>= 0)
+            count(coins, tmp);
+    }
+    return total;
+}
+
+int fun1(vector<int> &coins, int target){
+    int n = coins.size();
+    vector<int>dp(n+1);
+    dp[0] = 0;
+    for(int x = 1; x<=target; x++){
+        int best = 1e9;
+        for(auto c : coins){
+            
+            if(x-c>=0){
+                best = min(best, dp[x-c]+1);
+            }
+            
+        }
+        dp[x] = best;
+    }
+    return dp[n];
+}
+
+int main(){
+    int target; cin>>target;
+    int n; cin>>n;
+    vector<int>coins(n);
+    for(int i = 0; i<n; i++) cin>>coins[i];
+    
+    int mincoins = fun1(coins, target);
+    // for total number of solutions 
+    // we will have to go for every possible coin that is valid i.e.
+    // if x-c >= 0 go there 
+    /*
+    total = 0
+    count(x){
+        if(x== 0){
+            total++;
+        }
+        for( c : coins){
+            if(x-c>=0){
+                count(x-c)
+            }
+        }
+        return total
+    }
+    */
+    int all = 0;
+    all = count(coins, target);
+}
